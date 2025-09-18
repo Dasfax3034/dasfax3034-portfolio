@@ -1,0 +1,85 @@
+{
+    "Metadata": {
+        "title": "Dasfax3034 - Développeur Fullstack",
+        "description": "Développeur Fullstack de 16 ans – Next.js, SwiftUI, E-com & Creative Coding"
+    },
+      "Header": {
+    "home": "Home",
+    "about": "About",
+    "projects": "Projects",
+    "blog": "Blog",
+    "contact": "Contact"
+  },
+    "HomePage": {
+        "title": "Hello world!",
+        "hero": {
+            "title": "Hey, I'm Yassine Nemer",
+            "subtitle": "16 years old, fullstack developer and creative. I build web experiences with Next.js and iOS apps with SwiftUI.",
+            "cta1": "View my projects",
+            "cta2": "Contact me"
+        },
+        "highlights": {
+            "title": "My Strengths",
+            "projects": {
+                "title": "6+ Fullstack Projects",
+                "description": "From e-commerce to mobile apps, I bring ideas to life."
+            },
+            "hackathon": {
+                "title": "Hackathon IDF 17th",
+                "description": "CTF challenge and pentest in 24h, ranked in top 20."
+            },
+            "clients": {
+                "title": "Clients since 16",
+                "description": "Confirmed freelancer with professional projects delivered."
+            },
+            "ios": {
+                "title": "iOS Apps SwiftUI",
+                "description": "Native iOS development with SwiftUI and Vision Pro."
+            },
+            "tech": {
+                "title": "Modern Stack",
+                "description": "Next.js, TypeScript, GSAP, Tailwind and more."
+            },
+            "experience": {
+                "title": "2+ Years Experience",
+                "description": "Since I was 14, I code and create projects."
+            }
+        },
+        "featuredProjects": {
+            "title": "Featured Projects",
+            "viewOnline": "View online",
+            "details": "Details"
+        },
+        "bio": {
+            "title": "Already a rich journey at 16",
+            "description": "I started coding early, proved myself in freelance and competitions. Today I create projects that excite me and dream of joining MIT to continue my tech adventure.",
+            "cta": "Learn more"
+        }
+    },
+    "Projects": {
+        "Title": {
+            "first-line-shop": "First Line Shop - E-commerce platform",
+            "3x8-group": "3x8 Group - Corporate website",
+            "xplorafit": "Xplorafit - Sports association website",
+            "stop83": "Stop 83 - Pest control company",
+            "first-line-production": "First Line Production - Corporate website",
+            "carolol": "Carolol Festival - Event website",
+            "rentrez-dans-lart": "Rentrez Dans L'Art - Theater association",
+            "virtual-cook": "Virtual Cook - Recipes app",
+            "flowticket": "FlowTicket - Ticketing platform",
+            "hackathon-idf": "Hack Your High School - Île-de-France Hackathon"
+        },
+        "Description": {
+            "first-line-shop": "A full e-commerce platform with order management, Stripe payments, and an admin interface. Advanced cart system and inventory management.",
+            "3x8-group": "A modern website for a French production company, with smooth animations, responsive design, and SEO optimization.",
+            "xplorafit": "A full-featured website for a sports association, featuring a modern design and interactive animations.",
+            "stop83": "A sleek and modern website for a pest control company, optimized for SEO and user engagement.",
+            "first-line-production": "A modern corporate website for a Belgian production company, featuring smooth animations and SEO optimization.",
+            "carolol": "A dynamic and colorful website for a performing arts festival, focused on user experience and information.",
+            "rentrez-dans-lart": "A small dynamic website for a theater association, with smooth animations and SEO optimization.",
+            "virtual-cook": "A mobile app to find and manage recipes, designed for Apple Vision Pro. Built with SwiftUI (in progress).",
+            "flowticket": "A prototype web app to create events, sell tickets, and track attendance.",
+            "hackathon-idf": "Participated in a 24-hour hackathon organized by the Île-de-France region, featuring a CTF challenge and a penetration test on a test version of https://monlycee.net."
+        }
+    }
+}

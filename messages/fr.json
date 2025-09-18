@@ -1,0 +1,85 @@
+{
+  "Metadata": {
+    "title": "Dasfax3034 - Développeur Fullstack",
+    "description": "Développeur Fullstack de 16 ans – Next.js, SwiftUI, E-com & Creative Coding"
+  },
+  "HomePage": {
+    "title": "Bonjour le monde!",
+    "hero": {
+      "title": "Salut, je suis Yassine Nemer",
+      "subtitle": "16 ans, développeur fullstack et créatif. Je construis des expériences web en Next.js et des apps iOS en SwiftUI.",
+      "cta1": "Voir mes projets",
+      "cta2": "Me contacter"
+    },
+    "highlights": {
+      "title": "Mes Points Forts",
+      "projects": {
+        "title": "6+ Projets Fullstack",
+        "description": "De l'e-commerce aux apps mobiles, je concrétise mes idées."
+      },
+      "hackathon": {
+        "title": "Hackathon IDF 17e",
+        "description": "Challenge CTF et pentest en 24h, classé dans le top 20."
+      },
+      "clients": {
+        "title": "Clients dès 16 ans",
+        "description": "Freelance confirmé avec des projets pros réalisés."
+      },
+      "ios": {
+        "title": "iOS Apps SwiftUI",
+        "description": "Développement natif iOS avec SwiftUI et Vision Pro."
+      },
+      "tech": {
+        "title": "Stack Moderne",
+        "description": "Next.js, TypeScript, GSAP, Tailwind et plus encore."
+      },
+      "experience": {
+        "title": "4+ Ans d'Expérience",
+        "description": "Depuis mes 13 ans, je code et je crée des projets."
+      }
+    },
+    "featuredProjects": {
+      "title": "Projets Phares",
+      "viewOnline": "Voir en ligne",
+      "details": "Détails"
+    },
+    "bio": {
+      "title": "Un parcours déjà riche à 16 ans",
+      "description": "J'ai commencé à coder tôt, j'ai fait mes preuves en freelance et en compétitions. Aujourd'hui je crée des projets qui me passionnent et rêve d'intégrer le MIT pour poursuivre mon aventure tech.",
+      "cta": "En savoir plus"
+    }
+  },
+  "Header": {
+    "home": "Accueil",
+    "about": "À propos",
+    "projects": "Projets",
+    "blog": "Blog",
+    "contact": "Contact"
+  },
+  "Projects": {
+    "Title": {
+      "first-line-shop": "First Line Shop - Plateforme e‑commerce",
+      "3x8-group": "3x8 Group - Site corporate",
+      "xplorafit": "Xplorafit - Site association sportive",
+      "stop83": "Stop 83 - Société de dératisation",
+      "first-line-production": "First Line Production - Site corporate",
+      "carolol": "Carolol Festival - Site événementiel",
+      "rentrez-dans-lart": "Rentrez Dans L'Art - Association théâtrale",
+      "virtual-cook": "Virtual Cook - Application de recettes",
+      "flowticket": "FlowTicket - Plateforme de billetterie",
+      "hackathon-idf": "Hack ton lycée - Hackathon Île‑de‑France"
+    },
+    "Description": {
+      "first-line-shop": "Une plateforme e-commerce complète avec gestion des commandes, paiements Stripe et interface admin. Système de panier avancé et gestion des stocks.",
+      "3x8-group": "Un site moderne pour une société de production en France, avec animations fluides, design responsive et optimisation SEO.",
+      "xplorafit": "Un site complet pour une association sportive, avec design moderne et animations interactives.",
+      "stop83": "Un site moderne et élégant pour une société de dératisation, optimisé pour le SEO et l’engagement.",
+      "first-line-production": "Un site corporate moderne pour une société de production belge, avec animations fluides et optimisation SEO.",
+      "carolol": "Un site dynamique et coloré pour un festival des arts vivants, centré sur l’expérience utilisateur et l’information.",
+      "rentrez-dans-lart": "Un petit site dynamique pour une association théâtrale, avec animations fluides et optimisation SEO.",
+      "virtual-cook": "Une application mobile pour trouver et gérer des recettes, pensée pour Apple Vision Pro. Développée en SwiftUI (en cours).",
+      "flowticket": "Un prototype d’application web pour créer des événements, vendre des billets et suivre la participation.",
+      "hackathon-idf": "Participation à un hackathon de 24h organisé par la région Île-de-France, avec un challenge CTF et un test d’intrusion sur une version test de https://monlycee.net."
+    }
+  }
+}
