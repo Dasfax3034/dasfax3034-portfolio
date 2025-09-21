@@ -88,8 +88,8 @@ export default function Home() {
       icon: <Calendar className="size-4 text-cyan-500" />,
     },
     {
-      title: "Clean Code",
-      description: "Code propre et animations fluides.",
+      title: t("highlights.cleanCode.title"),
+      description: t("highlights.cleanCode.description"),
       header: <CodeAnimation />,
       className: "md:col-span-1",
       icon: <Zap className="size-4 text-indigo-500" />,
@@ -101,24 +101,26 @@ export default function Home() {
       // Animation du hero avec effet magnétique
       if (titleRef.current) {
         // Wrap each character in spans for both lines separately
-        const line1 = titleRef.current.querySelector('.title-line1');
-        const line2 = titleRef.current.querySelector('.title-line2');
+        const line1 = titleRef.current.querySelector(".title-line1");
+        const line2 = titleRef.current.querySelector(".title-line2");
         const wrapChars = (el: Element | null) => {
           if (!el) return;
           const text = el.textContent || "";
-          el.innerHTML = text
-            .split("")
-            .map((char) =>
-              char === " "
-                ? " "
-                : `<span class="inline-block hover-char">${char}</span>`
-            )
-            .join("");
+          const words = text.split(" ");
+          el.innerHTML = words
+            .map((word) => {
+              const chars = word
+                .split("")
+                .map((char) => `<span class="inline-block hover-char">${char}</span>`)
+                .join("");
+              return `<span class="inline-block">${chars}</span>`;
+            })
+            .join(" ");
         };
         wrapChars(line1);
         wrapChars(line2);
         const titleChars = titleRef.current.querySelectorAll(
-          '.title-line1 span, .title-line2 span'
+          ".title-line1 span, .title-line2 span"
         );
 
         // Animation d'entrée
@@ -135,27 +137,6 @@ export default function Home() {
           },
           ease: "elastic.out(1, 0.8)",
           delay: 0.3,
-        });
-
-        // Effet hover magnétique sur chaque lettre
-        titleChars.forEach((char) => {
-          char.addEventListener("mouseenter", () => {
-            gsap.to(char, {
-              scale: 1.3,
-              color: "#3b82f6",
-              duration: 0.3,
-              ease: "back.out(1.7)",
-            });
-          });
-
-          char.addEventListener("mouseleave", () => {
-            gsap.to(char, {
-              scale: 1,
-              color: "",
-              duration: 0.3,
-              ease: "power2.out",
-            });
-          });
         });
       }
 
@@ -284,26 +265,33 @@ export default function Home() {
     const startTime = performance.now();
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
     let width = canvas.clientWidth;
     let height = canvas.clientHeight;
     canvas.width = width;
     canvas.height = height;
-    const stars = Array.from({ length: 120 }, () => ({ x: Math.random() * width, y: Math.random() * height, size: Math.random() * 2 + 0.5 }));
+    const stars = Array.from({ length: 120 }, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      size: Math.random() * 2 + 0.5,
+    }));
     let mouseX = width / 2;
     let mouseY = height / 2;
-    const onMouseMove = (e: MouseEvent) => { mouseX = e.clientX; mouseY = e.clientY; };
-    window.addEventListener('mousemove', onMouseMove);
+    const onMouseMove = (e: MouseEvent) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    };
+    window.addEventListener("mousemove", onMouseMove);
     const onResize = () => {
       width = canvas.clientWidth;
       height = canvas.clientHeight;
       canvas.width = width;
       canvas.height = height;
     };
-    window.addEventListener('resize', onResize);
-  let frameId: number;
-  const render = () => {
+    window.addEventListener("resize", onResize);
+    let frameId: number;
+    const render = () => {
       // Calculate fade factor
       const elapsed = performance.now() - startTime;
       let factor = 1;
@@ -313,19 +301,24 @@ export default function Home() {
       ctx.clearRect(0, 0, width, height);
       ctx.globalAlpha = factor;
       stars.forEach((star) => {
-         const dx = (star.x - mouseX) * 0.02;
-         const dy = (star.y - mouseY) * 0.02;
-         star.x += dx;
-         star.y += dy;
-         // Reset stars that move too far off-screen to avoid wrapping jumps
-         if (star.x < -star.size || star.x > width + star.size || star.y < -star.size || star.y > height + star.size) {
-           star.x = Math.random() * width;
-           star.y = Math.random() * height;
-         }
-         ctx.beginPath();
-         ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-         ctx.fillStyle = 'white';
-         ctx.fill();
+        const dx = (star.x - mouseX) * 0.02;
+        const dy = (star.y - mouseY) * 0.02;
+        star.x += dx;
+        star.y += dy;
+        // Reset stars that move too far off-screen to avoid wrapping jumps
+        if (
+          star.x < -star.size ||
+          star.x > width + star.size ||
+          star.y < -star.size ||
+          star.y > height + star.size
+        ) {
+          star.x = Math.random() * width;
+          star.y = Math.random() * height;
+        }
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+        ctx.fillStyle = "white";
+        ctx.fill();
       });
       ctx.globalAlpha = 1;
       // Schedule next frame until fade completes
@@ -337,71 +330,149 @@ export default function Home() {
     render();
     // After maxDuration, remove listeners to freeze animation
     const timeoutId = setTimeout(() => {
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('resize', onResize);
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("resize", onResize);
     }, maxDuration);
 
     return () => {
       cancelAnimationFrame(frameId);
       clearTimeout(timeoutId);
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('resize', onResize);
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("resize", onResize);
     };
   }, [canvasRef]);
 
   return (
     <div className="min-h-screen overflow-x-hidden">
-      {/* Hero Section with default background and persistent starfield */}
+      {/* Hero Section with modern design */}
       <section
         ref={heroRef}
-        className="relative min-h-screen flex items-center px-4 md:px-14 lg:px-26 pt-20 overflow-hidden"
+        className="relative min-h-screen flex items-center px-4 md:px-8 lg:px-12 pt-20 overflow-hidden bg-gradient-to-br from-background via-background to-muted/20"
       >
         <canvas ref={canvasRef} className="absolute inset-0 size-full" />
-        <div className="max-w-4xl relative z-10 flex-1">
-          <h1
-            ref={titleRef}
-            className="text-4xl md:text-6xl font-bold font-satoshi mb-6 leading-tight cursor-default bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-violet-500"
-          >
-            <div className="title-line1 block">{t("hero.title")}</div>
-            <div className="title-line2 block mt-2">(aka Dasfax3034)</div>
-          </h1>
-          <p
-            ref={subtitleRef}
-            className="text-lg md:text-xl text-muted-foreground mb-8 max-w-3xl leading-relaxed"
-          >
-            {t("hero.subtitle")}
-          </p>
-          <div ref={ctaRef} className="flex flex-col sm:flex-row gap-4">
-            <Link href="/projects" passHref>
-              <Button size="lg" className="group relative overflow-hidden">
-                <span className="relative z-10">{t("hero.cta1")}</span>
-                <ArrowRight className=" size-4 transition-transform group-hover:translate-x-1 relative z-10" />
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/50 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-out" />
-              </Button>
-            </Link>
-            <Link passHref href="/contact">
-              <Button variant="outline" size="lg" className="group">
-                {t("hero.cta2")}
-                <Mail className=" size-4 transition-transform group-hover:scale-110" />
-              </Button>
-            </Link>
+
+        {/* Gradient orbs for visual appeal */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-br from-primary/10 to-purple-500/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-br from-accent/10 to-blue-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
+
+        <div className="max-w-7xl mx-auto w-full relative z-10">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left Content */}
+            <div className="space-y-8">
+              <div className="space-y-4">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-sm">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                  <span className="text-sm font-medium text-primary">
+                    {t("hero.availability")}
+                  </span>
+                </div>
+
+                <h1
+                  ref={titleRef}
+                  className="text-5xl md:text-7xl font-bold font-satoshi leading-tight cursor-default"
+                >
+                  <div className="title-line1 block bg-clip-text text-transparent bg-gradient-to-r from-foreground via-primary to-foreground">
+                    {t("hero.title")}
+                  </div>
+                  <div className="title-line2 block text-2xl md:text-3xl text-muted-foreground font-medium mt-2">
+                    (aka Dasfax3034)
+                  </div>
+                </h1>
+              </div>
+
+              <p
+                ref={subtitleRef}
+                className="text-xl text-muted-foreground max-w-2xl leading-relaxed"
+              >
+                {t("hero.subtitle")}
+              </p>
+
+              <div ref={ctaRef} className="flex flex-col sm:flex-row gap-4">
+                <Link href="/projects" passHref>
+                  <Button size="lg" animations={"light"}>
+                    <span className="relative z-10">{t("hero.cta1")}</span>
+                    <ArrowRight className="size-4 transition-transform group-hover:translate-x-1 relative z-10" />
+                  </Button>
+                </Link>
+                <Link passHref href="/contact">
+                  <Button variant="outline" size="lg" animations={"border"}>
+                    {t("hero.cta2")}
+                    <Mail className="size-4 transition-transform group-hover:scale-110" />
+                  </Button>
+                </Link>
+              </div>
+
+              {/* Stats */}
+              <div className="flex gap-8 pt-8 border-t border-border/50">
+                <div>
+                  <div className="text-2xl font-bold text-primary">15+</div>
+                  <div className="text-sm text-muted-foreground">
+                    {t("hero.projects")}
+                  </div>
+                </div>
+                <div className="flex flex-col align-center">
+                  <div className="text-2xl font-bold text-primary">3+</div>
+                  <div className="text-sm text-muted-foreground">
+                    {t("hero.experience")}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-primary">100%</div>
+                  <div className="text-sm text-muted-foreground">
+                    {t("hero.passion")}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Content - Interactive Profile */}
+            <div className="flex justify-center lg:justify-end">
+              <div className="relative group">
+                {/* Floating elements */}
+                <div className="absolute -top-4 -left-4 w-20 h-20 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-2xl rotate-12 group-hover:rotate-24 transition-transform duration-500" />
+                <div className="absolute -bottom-4 -right-4 w-16 h-16 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-2xl -rotate-12 group-hover:-rotate-24 transition-transform duration-500" />
+
+                <div className="relative w-80 h-80 rounded-3xl overflow-hidden bg-gradient-to-br from-primary/10 via-background to-accent/10 border border-border/50 shadow-2xl group-hover:shadow-primary/20 transition-all duration-500">
+                  <Image
+                    src="/profile.png"
+                    alt={t("hero.profileAlt")}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    priority
+                  />
+
+                  {/* Overlay with tech stack */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+                    <div className="space-y-2">
+                      <div className="text-sm font-medium">Stack actuel</div>
+                      <div className="flex gap-2 flex-wrap">
+                        {["React", "Next.js", "TypeScript", "Tailwind"].map(
+                          (tech) => (
+                            <span
+                              key={tech}
+                              className="px-2 py-1 text-xs bg-primary/20 text-primary rounded-md"
+                            >
+                              {tech}
+                            </span>
+                          )
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div>
-          <Image
-            src="/profile.png"
-            alt={t("hero.profileAlt")}
-            width={400}
-            height={400}
-            className="rounded-full"
-          />
         </div>
       </section>
 
       {/* Highlights Section - Bento Grid Premium */}
-      <section ref={highlightsRef} className="py-20 px-4">
+      <section
+        ref={highlightsRef}
+        className="py-20 px-4 md:px-8 lg:px-12 bg-gradient-to-b from-background to-muted/30"
+      >
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold font-satoshi text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold font-satoshi text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-foreground via-primary to-foreground">
             {t("highlights.title")}
           </h2>
           <BentoGrid className="grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -420,9 +491,12 @@ export default function Home() {
       </section>
 
       {/* Featured Projects Section */}
-      <section ref={projectsRef} className="py-20 px-4 bg-muted/50">
+      <section
+        ref={projectsRef}
+        className="py-20 px-4 md:px-8 lg:px-12 bg-gradient-to-b from-muted/30 to-background"
+      >
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold font-satoshi text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold font-satoshi text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-foreground via-primary to-foreground">
             {t("featuredProjects.title")}
           </h2>
           <div className="space-y-12">
@@ -442,21 +516,16 @@ export default function Home() {
                       src={project.image}
                       alt={tProjects(`Title.${project.key}`)}
                       fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      className="object-cover transition-transform duration-700"
                       priority
                     />
                   </div>
 
                   {/* Content */}
                   <div className="project-content lg:w-1/2 flex flex-col justify-center">
-                    <div className="mb-4">
-                      <span className="inline-block px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full mb-2">
-                        {project.category}
-                      </span>
-                      <span className="inline-block px-3 py-1 text-xs font-medium bg-accent/10 text-accent-foreground rounded-full mb-2 ">
-                        {project.status}
-                      </span>
-                    </div>
+                    <span className="inline-block py-1 text-xs font-medium bg-accent/10 text-accent-foreground rounded-full mb-2 ">
+                      {tProjects(`Status.${project.status}`)}
+                    </span>
                     <h3 className="text-2xl font-bold font-satoshi mb-3">
                       {tProjects(`Title.${project.key}`)}
                     </h3>
@@ -497,45 +566,124 @@ export default function Home() {
               </Card>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Mini Bio Section */}
-      <section ref={bioRef} className="py-20 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col lg:flex-row items-center gap-12">
-            {/* Portrait */}
-            <div className="bio-portrait lg:w-1/3">
-              <div className="w-64 h-64 mx-auto bg-gradient-to-br from-primary/20 to-accent/20 rounded-full flex items-center justify-center relative overflow-hidden">
-                <div className="w-32 h-32 bg-primary/10 rounded-full flex items-center justify-center">
-                  <span className="text-4xl font-bold font-satoshi text-primary">
-                    YN
-                  </span>
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-500" />
-              </div>
-            </div>
-
-            {/* Bio Content */}
-            <div className="bio-content lg:w-2/3 text-center lg:text-left">
-              <h2 className="text-3xl md:text-4xl font-bold font-satoshi mb-6">
-                {t("bio.title")}
-              </h2>
-              <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-                {t("bio.description")}
-              </p>
-              <Button asChild size="lg" variant="outline" className="group">
-                <Link href="/about">
-                  {t("bio.cta")}
-                  <ArrowRight className=" size-4 transition-transform group-hover:translate-x-1" />
-                </Link>
+          <div className="text-center mt-12">
+            <Link href="/projects" passHref>
+              <Button size="lg" animations={"light"}>
+                {t("featuredProjects.cta")}
+                <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
               </Button>
-            </div>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Note: original background restored; starfield canvas remains */}
+      {/* Bio Section - Modern Cards Grid */}
+      <section
+        ref={bioRef}
+        className="py-20 px-4 md:px-8 lg:px-12 bg-gradient-to-br from-background via-muted/20 to-background"
+      >
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold font-satoshi mb-6 bg-clip-text text-transparent bg-gradient-to-r from-foreground via-primary to-foreground">
+              {t("bio.title")}
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+              {t("bio.description")}
+            </p>
+          </div>
+
+          {/* Values Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+            {/* Passion Card */}
+            <Card className="bio-card p-8 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 group cursor-pointer border-border/50 hover:border-primary/30 bg-gradient-to-br from-card to-card/50">
+              <div className="w-16 h-16 bg-gradient-to-br from-red-500/20 to-pink-500/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                <div className="w-8 h-8 bg-gradient-to-br from-red-500 to-pink-500 rounded-xl animate-pulse" />
+              </div>
+              <h3 className="text-lg font-bold font-satoshi mb-3 text-foreground group-hover:text-primary transition-colors duration-300">
+                {t("bio.passion.title")}
+              </h3>
+              <p className="text-muted-foreground leading-relaxed">
+                {t("bio.passion.description")}
+              </p>
+            </Card>
+
+            {/* Learning Card */}
+            <Card className="bio-card p-8 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 group cursor-pointer border-border/50 hover:border-primary/30 bg-gradient-to-br from-card to-card/50">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl" />
+              </div>
+              <h3 className="text-lg font-bold font-satoshi mb-3 text-foreground group-hover:text-primary transition-colors duration-300">
+                {t("bio.learning.title")}
+              </h3>
+              <p className="text-muted-foreground leading-relaxed">
+                {t("bio.learning.description")}
+              </p>
+            </Card>
+
+            {/* Innovation Card */}
+            <Card className="bio-card p-8 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 group cursor-pointer border-border/50 hover:border-primary/30 bg-gradient-to-br from-card to-card/50">
+              <div className="w-16 h-16 bg-gradient-to-br from-purple-500/20 to-violet-500/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-violet-500 rounded-xl" />
+              </div>
+              <h3 className="text-lg font-bold font-satoshi mb-3 text-foreground group-hover:text-primary transition-colors duration-300">
+                {t("bio.innovation.title")}
+              </h3>
+              <p className="text-muted-foreground leading-relaxed">
+                {t("bio.innovation.description")}
+              </p>
+            </Card>
+
+            {/* Collaboration Card */}
+            <Card className="bio-card p-8 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 group cursor-pointer border-border/50 hover:border-primary/30 bg-gradient-to-br from-card to-card/50">
+              <div className="w-16 h-16 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl" />
+              </div>
+              <h3 className="text-lg font-bold font-satoshi mb-3 text-foreground group-hover:text-primary transition-colors duration-300">
+                {t("bio.collaboration.title")}
+              </h3>
+              <p className="text-muted-foreground leading-relaxed">
+                {t("bio.collaboration.description")}
+              </p>
+            </Card>
+
+            {/* Quality Card */}
+            <Card className="bio-card p-8 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 group cursor-pointer border-border/50 hover:border-primary/30 bg-gradient-to-br from-card to-card/50">
+              <div className="w-16 h-16 bg-gradient-to-br from-amber-500/20 to-orange-500/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                <div className="w-8 h-8 bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl" />
+              </div>
+              <h3 className="text-lg font-bold font-satoshi mb-3 text-foreground group-hover:text-primary transition-colors duration-300">
+                {t("bio.quality.title")}
+              </h3>
+              <p className="text-muted-foreground leading-relaxed">
+                {t("bio.quality.description")}
+              </p>
+            </Card>
+
+            {/* Vision Card */}
+            <Card className="bio-card p-8 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 group cursor-pointer border-border/50 hover:border-primary/30 bg-gradient-to-br from-card to-card/50">
+              <div className="w-16 h-16 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl" />
+              </div>
+              <h3 className="text-lg font-bold font-satoshi mb-3 text-foreground group-hover:text-primary transition-colors duration-300">
+                {t("bio.vision.title")}
+              </h3>
+              <p className="text-muted-foreground leading-relaxed">
+                {t("bio.vision.description")}
+              </p>
+            </Card>
+          </div>
+
+          {/* CTA */}
+          <div className="text-center">
+            <Link href="/about" passHref>
+              <Button size="lg" animations={"light"}>
+                {t("bio.cta")}
+                <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

@@ -8,8 +8,13 @@
     "hero": {
       "title": "Salut, je suis Yassine Nemer",
       "subtitle": "16 ans, développeur fullstack et créatif. Je construis des expériences web en Next.js et des apps iOS en SwiftUI.",
+      "profileAlt": "Photo de Yassine Nemer",
+      "availability": "Disponible pour projets",
       "cta1": "Voir mes projets",
-      "cta2": "Me contacter"
+      "cta2": "Me contacter",
+      "projects": "Projets",
+      "experience": "Années d'expérience",
+      "passion": "Passion"
     },
     "highlights": {
       "title": "Mes Points Forts",
@@ -36,17 +41,46 @@
       "experience": {
         "title": "4+ Ans d'Expérience",
         "description": "Depuis mes 13 ans, je code et je crée des projets."
+      },
+      "cleanCode": {
+        "title": "Clean Code",
+        "description": "Code propre et animations fluides."
       }
     },
     "featuredProjects": {
       "title": "Projets Phares",
       "viewOnline": "Voir en ligne",
-      "details": "Détails"
+      "details": "Détails",
+      "cta": "Voir tous les projets"
     },
     "bio": {
       "title": "Un parcours déjà riche à 16 ans",
-      "description": "J'ai commencé à coder tôt, j'ai fait mes preuves en freelance et en compétitions. Aujourd'hui je crée des projets qui me passionnent et rêve d'intégrer le MIT pour poursuivre mon aventure tech.",
-      "cta": "En savoir plus"
+      "description": "J'ai commencé à coder tôt, j'ai fait mes preuves en freelance et en compétitions. Aujourd'hui je crée des projets qui me passionnent et continue d'explorer de nouvelles technologies.",
+      "cta": "En savoir plus",
+      "passion": {
+        "title": "Passion Créative",
+        "description": "Chaque ligne de code est une occasion de créer quelque chose d'unique et d'impactant."
+      },
+      "learning": {
+        "title": "Apprentissage Continu",
+        "description": "Toujours en quête de nouvelles technologies et méthodologies pour repousser les limites."
+      },
+      "innovation": {
+        "title": "Innovation",
+        "description": "Transformer les idées complexes en solutions élégantes et accessibles."
+      },
+      "collaboration": {
+        "title": "Collaboration",
+        "description": "Travail en équipe et communication efficace pour des projets réussis."
+      },
+      "quality": {
+        "title": "Qualité",
+        "description": "Code propre, performance optimale et expérience utilisateur exceptionnelle."
+      },
+      "vision": {
+        "title": "Vision",
+        "description": "Anticipation des tendances et création de solutions durables pour l'avenir."
+      }
     }
   },
   "Header": {
@@ -55,6 +89,13 @@
     "projects": "Projets",
     "blog": "Blog",
     "contact": "Contact"
+  },
+  "Footer": {
+    "title": "Dasfax3034",
+    "description": "Développeur Fullstack de 16 ans – Next.js, SwiftUI, E-com & Creative Coding",
+    "navigation": "Navigation",
+    "connect": "Réseaux sociaux",
+    "richesse": "© 2025 Dasfax3034. Tous droits réservés."
   },
   "Projects": {
     "Title": {
@@ -80,6 +121,12 @@
       "virtual-cook": "Une application mobile pour trouver et gérer des recettes, pensée pour Apple Vision Pro. Développée en SwiftUI (en cours).",
       "flowticket": "Un prototype d’application web pour créer des événements, vendre des billets et suivre la participation.",
       "hackathon-idf": "Participation à un hackathon de 24h organisé par la région Île-de-France, avec un challenge CTF et un test d’intrusion sur une version test de https://monlycee.net."
+    },
+    "Status": {
+      "Completed": "Terminé",
+      "Near Completion": "Près de la finition",
+      "In Progress": "En cours",
+      "Prototype": "Prototype"
     }
   }
 }

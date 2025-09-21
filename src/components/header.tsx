@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { navigationItems } from "@/lib/pages";
 import { Button } from "./ui/button";
 import gsap from "gsap";
+import { AnimatedLink } from "./AnimateLink";
 
 export function Header() {
   const pathname = usePathname();
@@ -22,45 +23,6 @@ export function Header() {
     const onScroll = () => setIsScrolled(window.scrollY > 0);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  useEffect(() => {
-    // Animate front/back labels separately with GSAP
-    const handlers: Array<{
-      link: HTMLAnchorElement;
-      onEnter: () => void;
-      onLeave: () => void;
-    }> = [];
-    linkRefs.current.forEach((link) => {
-      if (!link) return;
-      const labels = link.querySelector(".labels") as HTMLElement | null;
-      const front = labels?.querySelector(".label-front") as HTMLElement | null;
-      const back = labels?.querySelector(".label-back") as HTMLElement | null;
-      if (!front || !back) return;
-
-      // initial positions
-      gsap.set(front, { yPercent: 0 });
-      gsap.set(back, { yPercent: 100 });
-
-      const onEnter = () => {
-        gsap.to(front, { yPercent: -100, duration: 0.5, ease: "power3.out" });
-        gsap.to(back, { yPercent: 0, duration: 0.5, ease: "power3.out" });
-      };
-      const onLeave = () => {
-        gsap.to(front, { yPercent: 0, duration: 0.5, ease: "power3.out" });
-        gsap.to(back, { yPercent: 100, duration: 0.5, ease: "power3.out" });
-      };
-
-      link.addEventListener("mouseenter", onEnter);
-      link.addEventListener("mouseleave", onLeave);
-      handlers.push({ link, onEnter, onLeave });
-    });
-    return () => {
-      handlers.forEach(({ link, onEnter, onLeave }) => {
-        link.removeEventListener("mouseenter", onEnter);
-        link.removeEventListener("mouseleave", onLeave);
-      });
-    };
   }, []);
 
   // Enhanced appearance animation using GSAP timeline + logo hover
@@ -93,16 +55,30 @@ export function Header() {
         "-=0.7"
       );
     }
-    // hover scale for logo
-    const onEnterLogo = () =>
-      gsap.to(logoEl, { scale: 1.1, duration: 0.3, ease: "power3.out" });
-    const onLeaveLogo = () =>
-      gsap.to(logoEl, { scale: 1, duration: 0.3, ease: "power3.out" });
-    logoEl.addEventListener("mouseenter", onEnterLogo);
-    logoEl.addEventListener("mouseleave", onLeaveLogo);
+    // magnifier effect on mouse move
+    const onLogoMove = (e: MouseEvent) => {
+      letters.forEach((letter) => {
+        const rect = letter.getBoundingClientRect();
+        const dx = e.clientX - (rect.left + rect.width / 2);
+        const dy = e.clientY - (rect.top + rect.height / 2);
+        const dist = Math.hypot(dx, dy);
+        const maxDist = 80; // smaller influence radius
+        const strength = 0.4; // reduce max scale effect
+        const factor = Math.max(0, (maxDist - dist) / maxDist);
+        const scale = 1 + factor * strength;
+        gsap.to(letter, { scale, duration: 0.2, ease: "power1.out" });
+      });
+    };
+    const onLogoLeaveMagnify = () => {
+      letters.forEach((letter) => {
+        gsap.to(letter, { scale: 1, duration: 0.3, ease: "power3.out" });
+      });
+    };
+    logoEl.addEventListener("mousemove", onLogoMove);
+    logoEl.addEventListener("mouseleave", onLogoLeaveMagnify);
     return () => {
-      logoEl.removeEventListener("mouseenter", onEnterLogo);
-      logoEl.removeEventListener("mouseleave", onLeaveLogo);
+      logoEl.removeEventListener("mousemove", onLogoMove);
+      logoEl.removeEventListener("mouseleave", onLogoLeaveMagnify);
       tl.kill();
     };
   }, []);
@@ -112,7 +88,7 @@ export function Header() {
       className={cn(
         "fixed top-0 w-full z-50 transition-colors duration-300",
         isScrolled
-          ? "backdrop-blur bg-background/60 border-b"
+          ? "md:backdrop-blur md:bg-background/60 md:border-b"
           : "bg-transparent"
       )}
     >
@@ -135,35 +111,15 @@ export function Header() {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
-          {navigationItems.map((item, index) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              ref={(el) => {
-                linkRefs.current[index] = el;
-              }}
-              passHref
-              className={cn(
-                "relative inline-block overflow-hidden align-middle font-medium"
-              )}
-            >
-              <span className="labels relative block overflow-hidden">
-                {/* hidden measure to define height */}
-                <span className="label-measure block invisible">
-                  {t(item.label)}
-                </span>
-                <span className="label-front absolute inset-0 flex items-center justify-center">
-                  {t(item.label)}
-                </span>
-                <span className="label-back absolute inset-0 flex items-center justify-center">
-                  {t(item.label)}
-                </span>
-              </span>
-            </Link>
+          {navigationItems.map((item) => (
+            <AnimatedLink key={item.href} href={item.href}>
+              {t(item.label)}
+            </AnimatedLink>
           ))}
           <Button
             variant={"outline"}
             size={"icon"}
+            animations={"border"}
             className="text-xs font-semibold !bg-transparent rounded-full"
             asChild
           >
@@ -175,6 +131,16 @@ export function Header() {
             </IntlLink>
           </Button>
         </nav>
+
+        {/* Mobile Navigation (Hamburger Menu) */}
+        <div className="md:hidden">
+          {/* Placeholder for mobile menu button */}
+          <Button variant="ghost" className="flex w-8 py-2 flex-col justify-between" size="icon">
+            <span className="sr-only">Open menu</span>
+            <span className="w-full h-0.5 transition-all transform mix-blend-difference"></span>
+            <span className="w-full h-0.5 transition-all transform mix-blend-difference"></span>
+          </Button>
+        </div>
       </div>
     </header>
   );
